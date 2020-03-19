@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <title>Tic Tac Toe</title>
+        <style>
+            body{
+                text-align: center;
+            }
+            table{border:1px solid;
+            margin:auto;}
+            td{
+                border:1px solid;
+                width:80px;
+                height:80px;
+                text-align: center;
+            }
+            .box,button{
+                cursor:pointer;
+            }
+            h2{
+                margin:auto;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 >Tic Tac Toe</h1>
+        <table>
+            <tr>
+                <td class="box" id="box1"><h2>?</h2></td>
+                <td class="box" id="box2"><h2>?</h2></td>
+                <td class="box" id="box3"><h2>?</h2></td>
+            </tr>
+            <tr>
+                <td class="box" id="box4"><h2>?</h2></td>
+                <td class="box" id="box5"><h2>?</h2></td>
+                <td class="box" id="box6"><h2>?</h2></td>
+            </tr>
+            <tr>
+                <td class="box" id="box7"><h2>?</h2></td>
+                <td class="box" id="box8"><h2>?</h2></td>
+                <td class="box" id="box9"><h2>?</h2></td>
+            </tr>
+            <tr>
+                <td colspan="3" id="winBox"><b>Get 3 in a Row to Win!</b></td>
+            </tr>
+            <tr>
+                <td colspan="3"><button id = "reset">NEW GAME</button></td>
+            </tr>
+            <tr>
+                <td colspan="3" id = "mode"><button id = "darkmode">Dark Mode</button></td>
+            </tr>
+        </table>
+    </body>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script>
+        var startTurn = 1;
+        var turn = startTurn;
+        var count = 0;
+        $(".box").click(function() {
+            if(turn == 1){
+                if($(this).text() == "?"){
+                    turn = 2;
+                    $(this).html( "<h2>X</h2>");
+                    $('#winBox').html("<b>O's turn</b>");
+                    count++;
+                }
+            }else if(turn == 2){
+                if($(this).text() == "?"){
+                    turn = 1;
+                    $(this).html( "<h2>O</h2>");
+                    $('#winBox').html("<b>X's turn</b>");
+                    count++;
+                }
+                
+            }
+            if(checkWinner()){
+                turn = 3;
+            }
+            
+        });
+        $('#darkmode').click(function(){
+            if($(this).text() == "Dark Mode"){
+                $('body').css("filter","invert(100%)");
+                $('body').css("background-color","#111111");
+                $(this).text("Light Mode");
+            }else{
+                $('body').css("filter","invert(0%)");
+                $('body').css("background-color","#ffffff");
+                $(this).text("Dark Mode");
+            }
+            
+        });
+        function checkWinner(){
+            if(
+                ($('#box1').text() + $('#box2').text() + $('#box3').text()) == "XXX"||
+                ($('#box4').text() + $('#box5').text() + $('#box6').text()) == "XXX"||
+                ($('#box7').text() + $('#box8').text() + $('#box9').text()) == "XXX"||
+                ($('#box1').text() + $('#box4').text() + $('#box7').text()) == "XXX"||
+                ($('#box2').text() + $('#box5').text() + $('#box8').text()) == "XXX"||
+                ($('#box3').text() + $('#box6').text() + $('#box9').text()) == "XXX"||
+                ($('#box1').text() + $('#box5').text() + $('#box9').text()) == "XXX"||
+                ($('#box3').text() + $('#box5').text() + $('#box7').text()) == "XXX"){
+                winX();
+                return true;
+            }else if(
+                ($('#box1').text() + $('#box2').text() + $('#box3').text()) == "OOO"||
+                ($('#box4').text() + $('#box5').text() + $('#box6').text()) == "OOO"||
+                ($('#box7').text() + $('#box8').text() + $('#box9').text()) == "OOO"||
+                ($('#box1').text() + $('#box4').text() + $('#box7').text()) == "OOO"||
+                ($('#box2').text() + $('#box5').text() + $('#box8').text()) == "OOO"||
+                ($('#box3').text() + $('#box6').text() + $('#box9').text()) == "OOO"||
+                ($('#box1').text() + $('#box5').text() + $('#box9').text()) == "OOO"||
+                ($('#box3').text() + $('#box5').text() + $('#box7').text()) == "OOO"){
+                winO();
+                return true;
+            }
+            if(count == 9){
+                $('#winBox').html('<b>No one won the game</b>');
+                turn = 3;
+            }
+        }
+        function winX(){
+            $('#winBox').html('<b>X Won the Game!</b>');
+        }
+        function winO(){
+            $('#winBox').html('<b>O Won the Game!</b>');
+        }
+        $("#reset").click(function(){
+            $('.box').html("<h2>?</h2>");
+            $('#winBox').html("<b>Get 3 in a Row to Win!</b>");
+            count = 0;
+            if(startTurn == 1){
+                startTurn = 2;
+                turn = startTurn;
+            }else{
+                startTurn = 1;
+                turn = startTurn;
+            }
+            
+        })
+    </script>
+</html>
